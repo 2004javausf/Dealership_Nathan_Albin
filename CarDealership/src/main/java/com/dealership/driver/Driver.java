@@ -17,7 +17,7 @@ public class Driver {
 		OfferDAOImpl odi = new OfferDAOImpl();
 
 //		try {
-//			cadi.insertCar(124, "Kia", "Soul", "Red", 2017, 13425, "Available");
+//			cadi.insertCar(125, "Tesla", "Model S", "Black", 2019, 75000, "Available");
 //		} catch (SQLException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -32,14 +32,19 @@ public class Driver {
 //		}
 		
 		
+//		try {
+//			odi.createOffer("depther", 125, 45000, 24);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+	
 		try {
-			odi.createOffer("depther", 124, 5000, 60);
+			odi.acceptDenyOffer("samsora", 125);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-
 		
 	}
 

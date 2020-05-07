@@ -8,6 +8,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
+import com.dealership.beans.Car;
+import com.dealership.beans.Offer;
 import com.dealership.dao.OfferDAO;
 import com.dealership.util.ConnFactory;
 
@@ -25,7 +27,6 @@ public class OfferDAOImpl implements OfferDAO {
 		int creditScore = 0;
 		double annImm = 0;
 		double effNomRate = 0;
-		double realEffNom = 0;
 		double carCost = 0;
 		double nomRate = 0;
 		double annEffRate = 0;
@@ -110,4 +111,46 @@ public class OfferDAOImpl implements OfferDAO {
 		}
 	}
 
+	@SuppressWarnings("resource")
+	@Override
+	public void acceptDenyOffer(String username, int carId) throws SQLException {
+		Connection conn = cf.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM OFFERS WHERE USERNAME = '" + username + "' AND CAR_ID = " + carId + "AND OFFER_STATUS = 'NotAccepted'");
+		Scanner s = new Scanner(System.in);
+		String tmp = "";
+		if(rs.next() == false) {
+			System.out.println("Offer not found..");
+			return;
+		}
+		ResultSet rss = stmt.executeQuery("SELECT * FROM OFFERS WHERE USERNAME = '" + username + "' AND CAR_ID = " + carId);
+		while(rss.next()) {
+			Offer of = new Offer(rss.getInt(1), rss.getString(2), rss.getInt(3), rss.getDouble(4), rss.getDouble(5), rss.getInt(6), rss.getDouble(7), rss.getDouble(8), rss.getDouble(9), rss.getInt(10), rss.getString(11));
+			tmp = of.toString();
+			System.out.println(tmp);
+		}
+		System.out.println("Accept or deny offer? ('a' for accept and 'd' for deny)");
+		String tmp2 = s.nextLine();
+		if(tmp2.equals("a")) {
+			rs = stmt.executeQuery("UPDATE CAR SET CAR_OWNER = '" + username + "' WHERE CAR_ID = " + carId);
+			rs = stmt.executeQuery("UPDATE CAR SET PURCHASE_STATUS = 'Unavailable' WHERE CAR_ID = " + carId);
+			rs = stmt.executeQuery("UPDATE OFFERS SET OFFER_STATUS = 'Accepted' WHERE USERNAME = '" + username + "' AND CAR_ID = " + carId);
+			rs = stmt.executeQuery("DELETE FROM OFFERS WHERE CAR_ID = " + carId + "AND USERNAME != '" + username + "'");
+			System.out.println("Purchase confirmed");
+			return;
+			
+		} else if(tmp2.equals("d")) {
+			rs = stmt.executeQuery("DELETE FROM OFFERS WHERE USERNAME = '" + username + "' AND CAR_ID = " + carId);
+			System.out.println("Offer denied and removed");
+		}
+		
+		
+		
+	}
+
+	
+	
+	
+	
+	
 }

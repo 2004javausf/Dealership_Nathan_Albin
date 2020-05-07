@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 import com.dealership.beans.Customer;
 import com.dealership.dao.CustomerDAO;
@@ -69,7 +69,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 	@Override
 	public void customerLogin(String username, String password) throws SQLException {
 		
-		List<Customer> customerList = new ArrayList<Customer>();
 		Connection conn = cf.getConnection();
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT USERNAME, PASSWORD FROM CUSTOMER WHERE USERNAME = '" + username + "' AND PASSWORD =  '" + password + "'");
