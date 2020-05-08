@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.dealership.beans.Car;
@@ -53,12 +55,13 @@ public class OfferDAOImpl implements OfferDAO {
 				amountToFinance = 0;
 				annEffRate = 0;
 				mthlyPmt = 0;
+				int pmtLeft = 0;
 				rs = stmt.executeQuery("SELECT * FROM OFFERS WHERE USERNAME = '" + username + "' AND CAR_ID = " + carId);
 				if(rs.next() == true) {
 					System.out.println("Already made offer on this car!");
 					return;
 				}
-				rs = stmt.executeQuery("INSERT INTO OFFERS VALUES(" + offerId + ",'" + username + "'," + carId + "," + carCost + "," + downPmt + "," + loanLength + "," + amountToFinance + "," + annEffRate + "," + mthlyPmt + ", 'NotAccepted')");
+				rs = stmt.executeQuery("INSERT INTO OFFERS VALUES(MYSEQ.NEXTVAL,'" + username + "'," + carId + "," + carCost + "," + downPmt + "," + loanLength + "," + amountToFinance + "," + annEffRate + "," + mthlyPmt + "," + pmtLeft + ",'NotAccepted')");
 				System.out.println("Thank you for your offer!");
 				return;
 			} else if(tmp.equals("no")) {
@@ -104,7 +107,7 @@ public class OfferDAOImpl implements OfferDAO {
 				System.out.println("Already made offer on this car!");
 				return;
 			}
-			rs = stmt.executeQuery("INSERT INTO OFFERS VALUES(" + offerId + ",'" + username + "'," + carId + "," + carCost + "," + downPmt + "," + loanLength + "," + amountToFinance + "," + annEffRate + "," + mthlyPmt + "," + loanLength + ", 'NotAccepted')");
+			rs = stmt.executeQuery("INSERT INTO OFFERS VALUES(MYSEQ.NEXTVAL,'" + username + "'," + carId + "," + carCost + "," + downPmt + "," + loanLength + "," + amountToFinance + "," + annEffRate + "," + mthlyPmt + "," + loanLength + ", 'NotAccepted')");
 			System.out.println("Successfully made offer, thanks!");
 		} else {
 			System.out.println("We look forward to helping you again soon!");
@@ -148,9 +151,101 @@ public class OfferDAOImpl implements OfferDAO {
 		
 	}
 
+	@Override
+	public void viewOffers(String username) throws SQLException {
+		List<Offer> offers = new ArrayList<Offer>();
+		Connection conn = cf.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM OFFERS WHERE USERNAME = '" + username + "'");
+		Offer o = null;
+		while(rs.next()) {
+			o = new Offer(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getDouble(4), rs.getDouble(5), rs.getInt(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getInt(10), rs.getString(11));
+			offers.add(o);
+		}
+		for(int i = 0; i < offers.size(); i++) {
+			System.out.println(offers.get(i));
+		}
 	
+	}
+
+	@Override
+	public void makePayment(String username, int carId) throws SQLException {
+		NumberFormat formatter = new DecimalFormat("#0.00");  
+		Connection conn = cf.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM CUSTOMER WHERE USERNAME = '" + username + "'");
+		int creditScore = 0;
+		double amountToFinance = 0;
+		double effNomRate = 0;
+		double carCost = 0;
+		double downPmt = 0;
+		double nomRate = 0;
+		double annEffRate = 0;
+		double realAnnEff = 0;
+		double remainingBal = 0;
+		double mthlyPmt = 0;
+		int loanLength= 0 ;
+		int pmtLeft = 0;
+		int pmtNum = 0;
+		while(rs.next()) {
+			creditScore = rs.getInt(5);
+		}
+		rs = stmt.executeQuery("SELECT * FROM OFFERS WHERE CAR_ID = " + carId + "AND USERNAME = '" + username + "'");
+		while(rs.next()) {
+			loanLength = rs.getInt(6);
+			mthlyPmt = rs.getDouble(9);
+			remainingBal = rs.getDouble(7);
+			pmtLeft = rs.getInt(10);
+			carCost = rs.getDouble(4);
+			downPmt = rs.getDouble(5);
+			String offerStatus = rs.getString(11);
+			if(pmtLeft == 0) {
+				System.out.println("Already paid off vehicle!");
+				return;
+			} else if (offerStatus.equals("NotAccepted")) {
+				System.out.println("Vehicle offer not accepted, cannot make payment.");
+				return;
+			}
+			
+		}
+				
+		annEffRate = 12 - (((double)creditScore / 900) * 10);
+		realAnnEff = 1 + (annEffRate / 100);
+		nomRate = (12) * ((Math.pow(realAnnEff, (double)1 / 12)) - 1);
+		effNomRate = nomRate / 12;
+		double effNomRate1 = effNomRate + 1;
+		pmtNum = (loanLength - pmtLeft) + 1;
+		pmtLeft = pmtLeft - 1;
+		amountToFinance = carCost - downPmt;
+		
+		double part1 = (amountToFinance) * (Math.pow(effNomRate1, (double)pmtNum));
+		double part2 = (Math.pow(effNomRate1, (double)pmtNum) - 1) / (effNomRate);
+		remainingBal = part1 - (part2 * mthlyPmt);
+		remainingBal = Double.parseDouble(formatter.format(remainingBal));
+
+		rs = stmt.executeQuery("UPDATE OFFERS SET LOAN_BALANCE = " + remainingBal + "WHERE USERNAME = '" + username + "' AND CAR_ID = " + carId);
+		rs = stmt.executeQuery("UPDATE OFFERS SET PMT_LEFT = " + pmtLeft + "WHERE USERNAME = '" + username + "' AND CAR_ID = " + carId);
 	
-	
-	
-	
+		System.out.println("Payment success!");
+		System.out.println("Car ID: " + carId);
+		System.out.println("Remaining balance: " + remainingBal);
+		System.out.println("Payments left: " + pmtLeft);
+	}
+
+	@Override
+	public void viewAllOffers() throws SQLException {
+		List<Offer> offers = new ArrayList<Offer>();
+		Connection conn = cf.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM OFFERS");
+		Offer o = null;
+		while(rs.next()) {
+			o = new Offer(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getDouble(4), rs.getDouble(5), rs.getInt(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getInt(10), rs.getString(11));
+			offers.add(o);
+		}
+		for(int i = 0; i < offers.size(); i++) {
+			System.out.println(offers.get(i));
+		}
+		
+	}
 }

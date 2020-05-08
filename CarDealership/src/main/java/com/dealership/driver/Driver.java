@@ -1,8 +1,7 @@
 package com.dealership.driver;
 
 import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.util.Scanner;
 
 import com.dealership.daoimpl.CarDAOImpl;
 import com.dealership.daoimpl.CustomerDAOImpl;
@@ -12,40 +11,215 @@ public class Driver {
 	
 
 	public static void main(String[] args) {
+		boolean quit = false;
 		CustomerDAOImpl cdi = new CustomerDAOImpl();
 		CarDAOImpl cadi = new CarDAOImpl();
 		OfferDAOImpl odi = new OfferDAOImpl();
-
-//		try {
-//			cadi.insertCar(125, "Tesla", "Model S", "Black", 2019, 75000, "Available");
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		Scanner sc = new Scanner(System.in);
+		System.out.println("W E L C O M E");
+		System.out.println("Select user type('1' for customer and '2' for employee)");
+		int tmp = sc.nextInt();
+		switch(tmp) {
+		case 1:
+			System.out.println("New customer?('1' for yes and '2' for no");
+			tmp = sc.nextInt();
+			switch(tmp) {
+			case 1:
+				try {
+					cdi.newAccount();
+				} catch (SQLException e) {
+					System.out.println("Account already exists.");
+					System.exit(0);
+				}
+			case 2:
+				try {
+					cdi.customerLogin();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+				do {
+					System.out.println("Please select an option:");
+					System.out.println("1: Show my account info");
+					System.out.println("2: Make offer on car");
+					System.out.println("3: View cars on lot");
+					System.out.println("4: View my cars");
+					System.out.println("5: View my offers and car payment info");
+					System.out.println("6: Make car payment");
+					System.out.println("0: Exit");
+					tmp = sc.nextInt();
+					switch(tmp) {
+					case 1:
+						Scanner s = new Scanner(System.in);
+						System.out.println("Confirm username");
+						String tmp1 = s.nextLine();
+						try {
+							cdi.getAccount(tmp1);
+							break;
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							System.out.println("Error entering username");
+							break;
+						}
+					case 2:
+						Scanner scc = new Scanner(System.in);
+						System.out.println("Confirm username");
+						String tmp2 = scc.nextLine();
+						System.out.println("Car id?");
+						int carId = scc.nextInt();
+						System.out.println("Down payment on car?");
+						double downPmt = scc.nextDouble();
+						System.out.println("Length of loan?(We currently offer 24, 60 , and 72 month loans. Enter '0' if purchasing car in full)");
+						int loanLength = scc.nextInt();
+						try {
+							odi.createOffer(tmp2, carId, downPmt, loanLength);
+							break;
+						} catch (SQLException e) {
+							System.out.println("Invalid input.");
+							break;
+						}
+					case 3:
+						try {
+							cadi.getCars();
+							break;
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						}
+					case 4:
+						Scanner sccc = new Scanner(System.in);
+						System.out.println("Confirm username");
+						tmp2 = sccc.nextLine();
+						try {
+							cadi.getMyCars(tmp2);
+							break;
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						}
+					case 5:
+						Scanner scan = new Scanner(System.in);
+						System.out.println("Confirm username");
+						tmp2 = scan.nextLine();
+						try {
+							odi.viewOffers(tmp2);
+							break;
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break;
+						}
+					case 6:
+						Scanner scann = new Scanner (System.in);
+						System.out.println("Confirm username");
+						tmp2 = scann.nextLine();
+						System.out.println("Enter car id");
+						carId = scann.nextInt();
+						try {
+							odi.makePayment(tmp2, carId);
+							break;
+						} catch (SQLException e) {
+							System.out.println("Invalid input");
+							break;
+						}
+					case 0:
+						quit = true;
+						break;
+					default:
+						System.out.println("Invalid input");
+						break;
+					}
+				} while(!quit);
+				System.out.println("Thank you");
+				System.exit(0);
+			}
+		case 2:
+			try {
+				cdi.employeeLogin();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
-		
-//		try {
-//			cdi.newAccount("samsora", "1234", "Chris", "Kennedy", 845);
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		
-//		try {
-//			odi.createOffer("depther", 125, 45000, 24);
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-	
-		try {
-			odi.acceptDenyOffer("samsora", 125);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			do {
+				
+				System.out.println("Please enter an option:");
+				System.out.println("1: Show all cars");
+				System.out.println("2: Add new car");
+				System.out.println("3: Get all customer info");
+				System.out.println("4: View all offers");
+				System.out.println("5: Accept/Deny offer");
+				System.out.println("0: Exit");
+				tmp = sc.nextInt();
+				switch(tmp) {
+				
+				case 1:
+					try {
+						cadi.getAllCars();
+						break;
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						break;
+					}
+				case 2:
+					try {
+						cadi.insertCar();
+						break;
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						break;
+					}
+				case 3:
+					try {
+						cdi.getCustomerList();
+						break;
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						break;
+					}
+				case 4:
+					try {
+						odi.viewAllOffers();
+						break;
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						break;
+					}
+				case 5:
+					Scanner scanny = new Scanner(System.in);
+					System.out.println("Enter username");
+					String username = scanny.nextLine();
+					System.out.println("Enter car id");
+					int carId = scanny.nextInt();
+					
+					try {
+						odi.acceptDenyOffer(username, carId);
+						break;
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						break;
+					}
+					
+				case 0:
+					quit = true;
+					break;
+				default:
+					System.out.println("Invalid input");
+					break;
+				}
+			} while (!quit);
+			System.out.println("Have a nice day");
+			System.exit(0);
 		}
-		
+
 	}
 
+	
 }

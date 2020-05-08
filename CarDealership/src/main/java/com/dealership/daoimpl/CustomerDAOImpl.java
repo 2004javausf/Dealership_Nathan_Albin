@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Scanner;
 
 import com.dealership.beans.Customer;
 import com.dealership.dao.CustomerDAO;
@@ -37,6 +37,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 		while(rs.next()) {
 			s = new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
 			customerList.add(s);
+			String tmp = s.toString();
+			System.out.println(tmp);
 		}
 		
 		return customerList;
@@ -59,15 +61,32 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 	//adds new account to database
 	@Override
-	public void newAccount(String username, String password, String firstName, String lastName, int creditScore)
-			throws SQLException {
+	public void newAccount() throws SQLException {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter desired username: ");
+		String username = sc.nextLine();
+		System.out.println("Enter desired password: ");
+		String password = sc.nextLine();
+		System.out.println("Enter first name: ");
+		String firstName = sc.nextLine();
+		System.out.println("Enter last name: ");
+		String lastName = sc.nextLine();
+		System.out.println("Enter credit score: ");
+		int creditScore = sc.nextInt();
+		
 		insertCustomer(username, password, firstName, lastName, creditScore);
 		System.out.println("Account successfully created!");
 		
 	}
 	//verifies login info for customer
 	@Override
-	public void customerLogin(String username, String password) throws SQLException {
+	public void customerLogin() throws SQLException {
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter username:");
+		String username = sc.nextLine();
+		System.out.println("Enter password:");
+		String password = sc.nextLine();
 		
 		Connection conn = cf.getConnection();
 		Statement stmt = conn.createStatement();
@@ -75,13 +94,27 @@ public class CustomerDAOImpl implements CustomerDAO {
 		
 		if(rs.next() == false) {
 			System.out.println("Invalid login info..");
-			
+			customerLogin();	
 		} else {
 			System.out.println("Login success!");	
 		}
 	}
-	
-
-	
-	
+	@Override
+	public void employeeLogin() throws SQLException {
+		
+		Scanner slan = new Scanner(System.in);
+		System.out.println("Enter employee id");
+		int empId = slan.nextInt();
+		
+		Connection connn = cf.getConnection();
+		Statement stmtt = connn.createStatement();
+		ResultSet rss = stmtt.executeQuery("SELECT * FROM EMPLOYEE WHERE EMP_ID = " + empId);
+		
+		if(rss.next() == false) {
+			System.out.println("Invalid login info..");
+			employeeLogin();
+		} else {
+			System.out.println("Login success!");
+		}	
+	}	
 }
