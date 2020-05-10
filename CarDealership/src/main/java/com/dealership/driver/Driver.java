@@ -11,6 +11,7 @@ public class Driver {
 	
 
 	public static void main(String[] args) {
+		String username = null;
 		boolean quit = false;
 		CustomerDAOImpl cdi = new CustomerDAOImpl();
 		CarDAOImpl cadi = new CarDAOImpl();
@@ -32,13 +33,16 @@ public class Driver {
 					System.exit(0);
 				}
 			case 2:
-				try {
-					cdi.customerLogin();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				while(username == null) {
+					try {
+						username = cdi.customerLogin();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}				
 				do {
+					
 					System.out.println("Please select an option:");
 					System.out.println("1: Show my account info");
 					System.out.println("2: Make offer on car");
@@ -50,11 +54,8 @@ public class Driver {
 					tmp = sc.nextInt();
 					switch(tmp) {
 					case 1:
-						Scanner s = new Scanner(System.in);
-						System.out.println("Confirm username");
-						String tmp1 = s.nextLine();
 						try {
-							cdi.getAccount(tmp1);
+							cdi.getAccount(username);
 							break;
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
@@ -63,8 +64,6 @@ public class Driver {
 						}
 					case 2:
 						Scanner scc = new Scanner(System.in);
-						System.out.println("Confirm username");
-						String tmp2 = scc.nextLine();
 						System.out.println("Car id?");
 						int carId = scc.nextInt();
 						System.out.println("Down payment on car?");
@@ -72,7 +71,7 @@ public class Driver {
 						System.out.println("Length of loan?(We currently offer 24, 60 , and 72 month loans. Enter '0' if purchasing car in full)");
 						int loanLength = scc.nextInt();
 						try {
-							odi.createOffer(tmp2, carId, downPmt, loanLength);
+							odi.createOffer(username, carId, downPmt, loanLength);
 							break;
 						} catch (SQLException e) {
 							System.out.println("Invalid input.");
@@ -88,11 +87,8 @@ public class Driver {
 							break;
 						}
 					case 4:
-						Scanner sccc = new Scanner(System.in);
-						System.out.println("Confirm username");
-						tmp2 = sccc.nextLine();
 						try {
-							cadi.getMyCars(tmp2);
+							cadi.getMyCars(username);
 							break;
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
@@ -100,11 +96,8 @@ public class Driver {
 							break;
 						}
 					case 5:
-						Scanner scan = new Scanner(System.in);
-						System.out.println("Confirm username");
-						tmp2 = scan.nextLine();
 						try {
-							odi.viewOffers(tmp2);
+							odi.viewOffers(username);
 							break;
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
@@ -113,12 +106,10 @@ public class Driver {
 						}
 					case 6:
 						Scanner scann = new Scanner (System.in);
-						System.out.println("Confirm username");
-						tmp2 = scann.nextLine();
 						System.out.println("Enter car id");
 						carId = scann.nextInt();
 						try {
-							odi.makePayment(tmp2, carId);
+							odi.makePayment(username, carId);
 							break;
 						} catch (SQLException e) {
 							System.out.println("Invalid input");
@@ -194,7 +185,7 @@ public class Driver {
 				case 5:
 					Scanner scanny = new Scanner(System.in);
 					System.out.println("Enter username");
-					String username = scanny.nextLine();
+					username = scanny.nextLine();
 					System.out.println("Enter car id");
 					int carId = scanny.nextInt();
 					

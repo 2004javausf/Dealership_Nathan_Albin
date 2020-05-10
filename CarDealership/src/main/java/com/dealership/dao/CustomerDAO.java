@@ -15,7 +15,7 @@ public interface CustomerDAO {
 	
 	public void newAccount() throws SQLException;
 	
-	public void customerLogin() throws SQLException;
+	public String customerLogin() throws SQLException;
 	
 	public void employeeLogin() throws SQLException;
 	

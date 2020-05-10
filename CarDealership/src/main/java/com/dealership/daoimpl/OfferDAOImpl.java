@@ -1,6 +1,8 @@
 package com.dealership.daoimpl;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.dealership.beans.Car;
 import com.dealership.beans.Offer;
 import com.dealership.dao.OfferDAO;
 import com.dealership.util.ConnFactory;
@@ -135,10 +136,12 @@ public class OfferDAOImpl implements OfferDAO {
 		System.out.println("Accept or deny offer? ('a' for accept and 'd' for deny)");
 		String tmp2 = s.nextLine();
 		if(tmp2.equals("a")) {
-			rs = stmt.executeQuery("UPDATE CAR SET CAR_OWNER = '" + username + "' WHERE CAR_ID = " + carId);
-			rs = stmt.executeQuery("UPDATE CAR SET PURCHASE_STATUS = 'Unavailable' WHERE CAR_ID = " + carId);
-			rs = stmt.executeQuery("UPDATE OFFERS SET OFFER_STATUS = 'Accepted' WHERE USERNAME = '" + username + "' AND CAR_ID = " + carId);
-			rs = stmt.executeQuery("DELETE FROM OFFERS WHERE CAR_ID = " + carId + "AND USERNAME != '" + username + "'");
+			//USE NEWCARACCEPTED SQL PROCEDURE TO UPDATE INFORMATION ON PURCHASE
+			String sql = "{ call NEWCARACCEPTED(?,?)";
+			CallableStatement call = conn.prepareCall(sql);
+			call.setString(1, username);
+			call.setInt(2, carId);
+			call.execute();
 			System.out.println("Purchase confirmed");
 			return;
 			
@@ -153,10 +156,13 @@ public class OfferDAOImpl implements OfferDAO {
 
 	@Override
 	public void viewOffers(String username) throws SQLException {
+		//use prepared statement to prevent sqlinjection from username
 		List<Offer> offers = new ArrayList<Offer>();
 		Connection conn = cf.getConnection();
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM OFFERS WHERE USERNAME = '" + username + "'");
+		String sql = "SELECT * FROM OFFERS WHERE USERNAME = ?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, username);
+		ResultSet rs = ps.executeQuery();
 		Offer o = null;
 		while(rs.next()) {
 			o = new Offer(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getDouble(4), rs.getDouble(5), rs.getInt(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getInt(10), rs.getString(11));

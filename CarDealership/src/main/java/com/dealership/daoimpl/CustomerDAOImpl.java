@@ -80,7 +80,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 	//verifies login info for customer
 	@Override
-	public void customerLogin() throws SQLException {
+	public String customerLogin() throws SQLException {
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter username:");
@@ -94,10 +94,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 		
 		if(rs.next() == false) {
 			System.out.println("Invalid login info..");
-			customerLogin();	
+			username = null;	
 		} else {
 			System.out.println("Login success!");	
 		}
+		return username;
 	}
 	@Override
 	public void employeeLogin() throws SQLException {
