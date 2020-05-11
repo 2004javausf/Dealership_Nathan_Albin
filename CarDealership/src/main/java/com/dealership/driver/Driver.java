@@ -6,11 +6,13 @@ import java.util.Scanner;
 import com.dealership.daoimpl.CarDAOImpl;
 import com.dealership.daoimpl.CustomerDAOImpl;
 import com.dealership.daoimpl.OfferDAOImpl;
+import com.dealership.util.LogMe;
 
 public class Driver {
 	
 
 	public static void main(String[] args) {
+		LogMe.logThis("error", "Error in code");
 		String username = null;
 		boolean quit = false;
 		CustomerDAOImpl cdi = new CustomerDAOImpl();
