@@ -11,6 +11,7 @@ import java.util.Scanner;
 import com.dealership.beans.Customer;
 import com.dealership.dao.CustomerDAO;
 import com.dealership.util.ConnFactory;
+import com.dealership.util.LogMe;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
@@ -58,6 +59,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			accountList.add(s);
 		}
 		System.out.println(accountList);
+		LogMe.logThis("info", "kid we here");
 	}
 	//adds new account to database
 	@Override
@@ -76,6 +78,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 		
 		insertCustomer(username, password, firstName, lastName, creditScore);
 		System.out.println("Account successfully created!");
+		LogMe.logThis("info", "account with username" + username + "successfully added to database.");
 		
 	}
 	//verifies login info for customer

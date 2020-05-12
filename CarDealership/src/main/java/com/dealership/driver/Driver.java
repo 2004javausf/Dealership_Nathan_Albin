@@ -12,7 +12,6 @@ public class Driver {
 	
 
 	public static void main(String[] args) {
-		LogMe.logThis("error", "Error in code");
 		String username = null;
 		boolean quit = false;
 		CustomerDAOImpl cdi = new CustomerDAOImpl();
