@@ -18,7 +18,7 @@
 		</File>
 	</Appenders>
 	<Loggers>
-		<Logger name="com.dealership.util.LogThis" level = "info" additivity= "false">
+		<Logger name="com.dealership.util.LogMe" level = "info" additivity= "false">
 			<AppenderRef ref = "File"/>
 		</Logger>
 		<Root>

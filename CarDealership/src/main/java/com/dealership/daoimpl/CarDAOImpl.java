@@ -11,6 +11,7 @@ import java.util.Scanner;
 import com.dealership.beans.Car;
 import com.dealership.dao.CarDAO;
 import com.dealership.util.ConnFactory;
+import com.dealership.util.LogMe;
 
 public class CarDAOImpl implements CarDAO {
 
@@ -37,6 +38,7 @@ public class CarDAOImpl implements CarDAO {
 		Statement stmt = conn.createStatement();
 		String sql = "INSERT INTO CAR VALUES(MYSEQ2.NEXTVAL" + ",'" + make + "','" + model + "','" + color + "'," + year + "," + cost + ", 'Available', NULL)";
 		stmt.executeUpdate(sql);
+		LogMe.logThis("info", "Car added to lot: Make = " + make + ", Model = " + model + ", Color = " + color + ", Year = " + year + ", Cost = " + cost);
 	}
 	//returns string of all available cars for customer
 	@Override

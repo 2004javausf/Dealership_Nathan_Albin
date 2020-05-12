@@ -15,6 +15,7 @@ import java.util.Scanner;
 import com.dealership.beans.Offer;
 import com.dealership.dao.OfferDAO;
 import com.dealership.util.ConnFactory;
+import com.dealership.util.LogMe;
 
 public class OfferDAOImpl implements OfferDAO {
 
@@ -64,6 +65,7 @@ public class OfferDAOImpl implements OfferDAO {
 				}
 				rs = stmt.executeQuery("INSERT INTO OFFERS VALUES(MYSEQ.NEXTVAL,'" + username + "'," + carId + "," + carCost + "," + downPmt + "," + loanLength + "," + amountToFinance + "," + annEffRate + "," + mthlyPmt + "," + pmtLeft + ",'NotAccepted')");
 				System.out.println("Thank you for your offer!");
+				LogMe.logThis("info", "New offer added for carId = " + carId + " by username = " + username);
 				return;
 			} else if(tmp.equals("no")) {
 				System.out.println("Thank you, please visit again soon!");
@@ -110,6 +112,7 @@ public class OfferDAOImpl implements OfferDAO {
 			}
 			rs = stmt.executeQuery("INSERT INTO OFFERS VALUES(MYSEQ.NEXTVAL,'" + username + "'," + carId + "," + carCost + "," + downPmt + "," + loanLength + "," + amountToFinance + "," + annEffRate + "," + mthlyPmt + "," + loanLength + ", 'NotAccepted')");
 			System.out.println("Successfully made offer, thanks!");
+			LogMe.logThis("info", "New offer added for carId = " + carId + " by username = " + username);
 		} else {
 			System.out.println("We look forward to helping you again soon!");
 		}
@@ -143,11 +146,13 @@ public class OfferDAOImpl implements OfferDAO {
 			call.setInt(2, carId);
 			call.execute();
 			System.out.println("Purchase confirmed");
+			LogMe.logThis("info", "offer for carId = " + carId + " by username = " + username + " has been accepted");
 			return;
 			
 		} else if(tmp2.equals("d")) {
 			rs = stmt.executeQuery("DELETE FROM OFFERS WHERE USERNAME = '" + username + "' AND CAR_ID = " + carId);
 			System.out.println("Offer denied and removed");
+			LogMe.logThis("info", "offer for carId = " + carId + " by username = " + username + " has been removed");
 		}
 		
 		
@@ -236,6 +241,7 @@ public class OfferDAOImpl implements OfferDAO {
 		System.out.println("Car ID: " + carId);
 		System.out.println("Remaining balance: " + remainingBal);
 		System.out.println("Payments left: " + pmtLeft);
+		LogMe.logThis("info", "Payment made for carId = " + carId + " by username = " + username + ". There are " + pmtLeft + " payments left.");
 	}
 
 	@Override

@@ -59,7 +59,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			accountList.add(s);
 		}
 		System.out.println(accountList);
-		LogMe.logThis("info", "kid we here");
+		LogMe.logThis("info", username + "checked their info");
 	}
 	//adds new account to database
 	@Override
@@ -78,7 +78,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 		
 		insertCustomer(username, password, firstName, lastName, creditScore);
 		System.out.println("Account successfully created!");
-		LogMe.logThis("info", "account with username" + username + "successfully added to database.");
+		LogMe.logThis("info", "account with username " + username + " successfully added to database.");
 		
 	}
 	//verifies login info for customer
@@ -101,6 +101,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 		} else {
 			System.out.println("Login success!");	
 		}
+		LogMe.logThis("info", username + " has logged in");
 		return username;
 	}
 	@Override

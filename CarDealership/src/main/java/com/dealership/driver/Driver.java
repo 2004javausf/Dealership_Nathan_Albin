@@ -1,5 +1,5 @@
 package com.dealership.driver;
-
+import java.util.concurrent.TimeUnit;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -11,19 +11,25 @@ import com.dealership.util.LogMe;
 public class Driver {
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		String username = null;
 		boolean quit = false;
 		CustomerDAOImpl cdi = new CustomerDAOImpl();
 		CarDAOImpl cadi = new CarDAOImpl();
 		OfferDAOImpl odi = new OfferDAOImpl();
 		Scanner sc = new Scanner(System.in);
-		System.out.println("W E L C O M E");
+		String temp = "W E L C O M E";
+		String[] temp2 = temp.split(" ");
+		for(int i = 0; i < 7; i++) {
+			System.out.print(temp2[i] + " ");
+			TimeUnit.MILLISECONDS.sleep(200);
+		}
+		System.out.println();
 		System.out.println("Select user type('1' for customer and '2' for employee)");
 		int tmp = sc.nextInt();
 		switch(tmp) {
 		case 1:
-			System.out.println("New customer?('1' for yes and '2' for no");
+			System.out.println("New customer?('1' for yes and '2' for no)");
 			tmp = sc.nextInt();
 			switch(tmp) {
 			case 1:
