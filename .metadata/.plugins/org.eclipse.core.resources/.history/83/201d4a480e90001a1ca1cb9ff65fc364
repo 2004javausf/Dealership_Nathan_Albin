@@ -1,0 +1,65 @@
+package com.dealership.daoimpl;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.dealership.beans.Car;
+import com.dealership.beans.Customer;
+import com.dealership.dao.CarDAO;
+import com.dealership.util.ConnFactory;
+
+public class CarDAOImpl implements CarDAO {
+
+	public static ConnFactory cf = ConnFactory.getFactoryInstance();
+	
+	//adds car to database
+	@Override
+	public void insertCar(int carId, String make, String model, String color, int year, double cost,
+			String purchaseStatus) throws SQLException {
+		Connection conn = cf.getConnection();
+		Statement stmt = conn.createStatement();
+		String sql = "INSERT INTO CAR VALUES(" + carId + ",'" + make + "','" + model + "','" + color + "'," + year + "," + cost + ",'" + purchaseStatus + "')";
+		stmt.executeUpdate(sql);
+	}
+	//returns string of all available cars for customer
+	@Override
+	public String getCars() throws SQLException {
+		Connection conn = cf.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT CAR_ID, MAKE, CAR_MODEL, COLOR, CAR_YEAR, CAR_COST FROM CAR WHERE PURCHASE_STATUS = 'Available'");
+		Car s = null;
+		String tmp = "";
+		while(rs.next()) {
+			s = new Car(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getDouble(6));
+			tmp = tmp.concat(s.toString2());
+		}
+		return tmp;
+	}
+	//returns list of all cars in database for employee
+	@Override
+	public List<Car> getAllCars() throws SQLException {
+		List<Car> carList = new ArrayList<Car>();
+		Connection conn = cf.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM CAR");
+		Car s = null;
+		while(rs.next()) {
+			s = new Car(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getDouble(6), rs.getString(7), rs.getString(8));
+			carList.add(s);
+		}
+		
+		return carList;
+	}
+	//returns string of customers cars owned
+	@Override
+	public String getMyCars() throws SQLException {
+		
+	}
+	
+	
+
+}

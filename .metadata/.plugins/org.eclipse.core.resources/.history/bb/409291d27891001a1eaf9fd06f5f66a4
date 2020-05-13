@@ -1,0 +1,24 @@
+package com.dealership.test;
+
+import java.sql.SQLException;
+
+import org.junit.jupiter.api.Test;
+
+import com.dealership.daoimpl.CustomerDAOImpl;
+
+class CustomerTesting {
+
+	
+	@Test
+	void getCustomerListTest() {
+		CustomerDAOImpl cdi = new CustomerDAOImpl();
+		try {
+			cdi.getCustomerList();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}

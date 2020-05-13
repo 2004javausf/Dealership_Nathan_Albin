@@ -1,0 +1,14 @@
+package com.dealership.driver;
+
+import java.util.logging.Logger;
+
+import com.dealership.util.LogMe;
+
+public class TestDriver {
+	public static void main(String[] args) {
+		LogMe.logThis("error", "this is test info");
+		Logger l = new Logger();
+		
+	}
+
+}

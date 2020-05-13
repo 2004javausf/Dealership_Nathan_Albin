@@ -1,0 +1,32 @@
+package com.dealership.util;
+
+import org.apache.logging.log4j.LogManager;
+
+public class Logger {
+	static Logger logger=(Logger) LogManager.getLogger();
+	
+	public static void LogThis(String level, String message) {
+		switch (level) {
+		case "debug":
+			((org.apache.logging.log4j.Logger) logger).debug(message);
+			break;
+		case "warn":
+			((org.apache.logging.log4j.Logger) logger).warn(message);
+			break;
+		case "error":
+			((org.apache.logging.log4j.Logger) logger).error(message);
+			break;
+		case "fatal":
+			((org.apache.logging.log4j.Logger) logger).fatal(message);
+			break;
+		case "info":
+			((org.apache.logging.log4j.Logger) logger).info(message);
+			break;
+		case "trace":
+			((org.apache.logging.log4j.Logger) logger).trace(message);
+			break;
+		default:
+			System.out.println("Undefined case.");
+		}
+	}
+}

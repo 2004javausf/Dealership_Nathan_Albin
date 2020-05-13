@@ -1,0 +1,7 @@
+package com.dealership.dao;
+
+public interface CarDAO {
+	
+	public void insertCar(int carId, String make, String model, String color, int year, int cost);
+
+}

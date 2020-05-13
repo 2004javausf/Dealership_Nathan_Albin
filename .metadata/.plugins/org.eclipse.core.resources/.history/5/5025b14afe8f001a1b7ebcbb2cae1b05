@@ -1,0 +1,25 @@
+package com.dealership.driver;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.dealership.beans.Customer;
+import com.dealership.daoimpl.CustomerDAOImpl;
+
+public class Driver {
+	
+
+	public static void main(String[] args) {
+		CustomerDAOImpl cdi = new CustomerDAOImpl();
+
+		try {
+			cdi.customerLogin("kronossdf", "1234");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}

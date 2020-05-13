@@ -1,0 +1,8 @@
+package com.dealership.dao;
+
+public interface OfferDAO {
+
+	
+	public void createOffer(String username, int carId) throws SQLException;
+	
+}

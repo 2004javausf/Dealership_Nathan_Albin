@@ -1,0 +1,30 @@
+package com.dealership.test;
+
+import java.sql.SQLException;
+
+import org.junit.jupiter.api.Test;
+
+import com.dealership.daoimpl.CarDAOImpl;
+import com.dealership.daoimpl.CustomerDAOImpl;
+
+class CustomerTesting {
+
+	AssertEquals ae = new AssertEquals();
+	
+	@Test
+	void customerLoginTest() {
+		CarDAOImpl cadi = new CarDAOImpl();
+		CustomerDAOImpl cdi = new CustomerDAOImpl();
+		try {
+			cadi.getCars();
+			assertEquals
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+
+	}
+
+}

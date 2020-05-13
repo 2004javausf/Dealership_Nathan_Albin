@@ -1,0 +1,13 @@
+package com.dealership.beans;
+
+public class Customer {
+
+	private String firstName;
+	private String lastName;
+	private String username;
+	private String password;
+	private int creditScore;
+
+	
+	
+}

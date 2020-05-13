@@ -1,0 +1,26 @@
+[INFO ] 2020-05-12 17:38:14.937 [main] LogMe - kronos has logged in
+[INFO ] 2020-05-12 17:41:38.363 [main] LogMe - account with usernamekronossuccessfully added to database.
+[INFO ] 2020-05-12 17:41:44.377 [main] LogMe - kronos has logged in
+[INFO ] 2020-05-12 17:42:41.195 [main] LogMe - account with usernamesamsorasuccessfully added to database.
+[INFO ] 2020-05-12 17:42:48.462 [main] LogMe - samsora has logged in
+[INFO ] 2020-05-12 17:44:19.314 [main] LogMe - account with usernamekidsuccessfully added to database.
+[INFO ] 2020-05-12 17:44:24.965 [main] LogMe - kid has logged in
+[INFO ] 2020-05-12 17:44:58.526 [main] LogMe - account with usernamedepthersuccessfully added to database.
+[INFO ] 2020-05-12 17:45:03.113 [main] LogMe - depther has logged in
+[INFO ] 2020-05-12 17:46:49.459 [main] LogMe - Car added to lot: Make = Ford, Model = Taurus, Color = Crimson, Year = 2016, Cost = 16400.0
+[INFO ] 2020-05-12 17:47:12.183 [main] LogMe - Car added to lot: Make = Honda, Model = Accord, Color = Gray, Year = 2001, Cost = 8399.99
+[INFO ] 2020-05-12 17:47:33.130 [main] LogMe - Car added to lot: Make = Jeep, Model = Wrangler, Color = Yellow, Year = 2018, Cost = 17600.0
+[INFO ] 2020-05-12 17:47:51.438 [main] LogMe - Car added to lot: Make = Kia, Model = Soul, Color = Red, Year = 2015, Cost = 13800.0
+[INFO ] 2020-05-12 17:48:29.741 [main] LogMe - depther has logged in
+[INFO ] 2020-05-12 17:48:56.821 [main] LogMe - New offer added for carId = 3 by username = depther
+[INFO ] 2020-05-12 17:49:12.262 [main] LogMe - kid has logged in
+[INFO ] 2020-05-12 17:49:35.446 [main] LogMe - New offer added for carId = 4 by username = kid
+[INFO ] 2020-05-12 17:50:15.490 [main] LogMe - offer for carId = 3 by username = depther has been accepted
+[INFO ] 2020-05-12 17:51:05.170 [main] LogMe - depther has logged in
+[INFO ] 2020-05-12 17:51:38.513 [main] LogMe - Payment made for carId = 3 by username = depther. There are 59 payments left.
+[INFO ] 2020-05-13 00:20:16.072 [main] LogMe - kronos has logged in
+[INFO ] 2020-05-13 00:20:58.241 [main] LogMe - New offer added for carId = 4 by username = kronos
+[INFO ] 2020-05-13 00:21:52.538 [main] LogMe - offer for carId = 4 by username = kronos has been accepted
+[INFO ] 2020-05-13 00:22:14.195 [main] LogMe - kronos has logged in
+[INFO ] 2020-05-13 00:22:25.133 [main] LogMe - Payment made for carId = 4 by username = kronos. There are 23 payments left.
+[INFO ] 2020-05-13 00:22:43.890 [main] LogMe - kronoschecked their info

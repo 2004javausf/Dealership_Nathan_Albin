@@ -1,0 +1,11 @@
+package com.dealership.driver;
+
+import com.dealership.util.LogMe;
+import org.apache.log4j.Logger;
+
+public class TestDriver {
+	public static void main(String[] args) {
+		LogMe.logThis("info", "this is test info");
+	}
+
+}

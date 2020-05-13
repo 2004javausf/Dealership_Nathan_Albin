@@ -1,0 +1,17 @@
+package com.dealership.test;
+
+import org.junit.jupiter.api.Test;
+
+import com.dealership.daoimpl.CustomerDAOImpl;
+
+class CustomerTesting {
+
+	
+	@Test
+	void getCustomerListTest() {
+		CustomerDAOImpl cdi = new CustomerDAOImpl();
+		cdi.getCustomerList();
+		fail("Not yet implemented");
+	}
+
+}
