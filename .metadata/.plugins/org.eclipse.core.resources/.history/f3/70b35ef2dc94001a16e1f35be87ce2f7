@@ -12,7 +12,7 @@ class CustomerTesting {
 
 	
 	@Test
-	void getCarsTest() {
+	void customerLoginTest() {
 		CarDAOImpl cadi = new CarDAOImpl();
 		CustomerDAOImpl cdi = new CustomerDAOImpl();
 		try {
